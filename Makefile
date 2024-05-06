@@ -18,7 +18,8 @@ LFLAGS =
 OUTPUT	:= output
 
 # define source directory
-SRC		:= src\01
+SRC		:= src\intro\05
+ADDITIONAL_SRC := src\intro
 
 # define include directory
 INCLUDE	:= include
@@ -29,7 +30,7 @@ Libraries := -lglad -lglfw3dll
 
 ifeq ($(OS),Windows_NT)
 MAIN	:= main.exe
-SOURCEDIRS	:= $(SRC)
+SOURCEDIRS	:= $(SRC) $(ADDITIONAL_SRC)
 INCLUDEDIRS	:= $(INCLUDE)
 LIBDIRS		:= $(LIB)
 FIXPATH = $(subst /,\,$1)
@@ -37,7 +38,7 @@ RM			:= del /q /f
 MD	:= mkdir
 else
 MAIN	:= main
-SOURCEDIRS	:= $(shell find $(SRC) -type d)
+SOURCEDIRS	:= $(shell find $(SRC) -type d) $(shell find $(ADDITIONAL_SRC) -type d)
 INCLUDEDIRS	:= $(shell find $(INCLUDE) -type d)
 LIBDIRS		:= $(shell find $(LIB) -type d)
 FIXPATH = $1
@@ -46,7 +47,7 @@ MD	:= mkdir -p
 endif
 
 # define any directories containing header files other than /usr/include
-INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%))
+INCLUDES	:= $(patsubst %,-I%, $(INCLUDEDIRS:%/=%)) 
 
 # define the C libs
 LIBS		:= $(patsubst %,-L%, $(LIBDIRS:%/=%))
